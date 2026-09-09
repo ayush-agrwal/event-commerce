@@ -1,0 +1,21 @@
+In a Maven pom.xml, <scope> tells Maven when and where a dependency is needed.
+
+For example, we added:
+
+<dependency>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <scope>runtime</scope>
+</dependency>
+Common Maven scopes
+Scope	Meaning
+compile	Needed to compile, test, and run. Default if no scope is specified.
+provided	Needed to compile, but expected to be provided by the runtime/server.
+runtime	Not needed to compile, but needed when the application runs.
+test	Only available during testing.
+system	Similar to provided, but uses a specific local JAR path. Generally avoid it.
+
+
+mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Duser.timezone=UTC"
+
+docker stop event-commerce-postgres
