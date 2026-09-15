@@ -39,9 +39,9 @@ public class OrderCreatedConsumer {
             Payment payment = new Payment();
             payment.setOrderId(event.getOrderId());
 
-            // Temporary amount for our first event-flow test.
-            payment.setAmount(100.0);
-
+            payment.setAmount(event.getAmount().doubleValue());
+            payment.setProductId(event.getProductId());
+            payment.setQuantity(event.getQuantity());
             Payment createdPayment =
                     paymentService.createPayment(payment);
 

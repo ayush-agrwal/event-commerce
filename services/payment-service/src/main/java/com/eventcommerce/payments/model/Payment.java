@@ -6,6 +6,24 @@ public class Payment {
     private Double amount;
     private String status;
 
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    private String productId;
+    private Integer quantity;
     public Payment() {}
 
     public Payment(Long id, Long orderId, Double amount, String status) {

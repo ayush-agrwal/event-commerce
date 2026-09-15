@@ -7,6 +7,8 @@ public class PaymentSucceededEvent {
     private Long paymentId;
     private Long orderId;
     private BigDecimal amount;
+    private String productId;
+    private Integer quantity;
 
     public PaymentSucceededEvent() {
     }
@@ -14,10 +16,15 @@ public class PaymentSucceededEvent {
     public PaymentSucceededEvent(
             Long paymentId,
             Long orderId,
-            BigDecimal amount) {
+            BigDecimal amount,
+            String productId,
+            Integer quantity) {
+
         this.paymentId = paymentId;
         this.orderId = orderId;
         this.amount = amount;
+        this.productId = productId;
+        this.quantity = quantity;
     }
 
     public Long getPaymentId() {
@@ -42,5 +49,21 @@ public class PaymentSucceededEvent {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }

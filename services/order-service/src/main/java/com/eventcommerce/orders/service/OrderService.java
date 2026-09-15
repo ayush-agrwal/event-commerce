@@ -45,7 +45,8 @@ public class OrderService {
                 savedOrder.getId(),
                 savedOrder.getCustomerId(),
                 savedOrder.getProductId(),
-                savedOrder.getQuantity()
+                savedOrder.getQuantity(),
+                savedOrder.getAmount()
         );
 
         try {

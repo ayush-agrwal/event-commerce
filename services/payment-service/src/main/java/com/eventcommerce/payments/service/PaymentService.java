@@ -31,8 +31,9 @@ public class PaymentService {
         PaymentSucceededEvent event = new PaymentSucceededEvent(
                 payment.getId(),
                 payment.getOrderId(),
-                BigDecimal.valueOf(payment.getAmount())
-        );
+                BigDecimal.valueOf(payment.getAmount()),
+                payment.getProductId(),
+                payment.getQuantity());
 
         paymentEventProducer.publishPaymentSucceeded(event);
 

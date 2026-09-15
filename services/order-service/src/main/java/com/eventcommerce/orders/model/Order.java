@@ -18,7 +18,7 @@ public class Order {
     private String productId;
     private Integer quantity;
     private String status;
-
+    private java.math.BigDecimal amount;
     public Order() {
     }
 
@@ -60,5 +60,11 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    public java.math.BigDecimal getAmount() {
+        return amount;
+    }
+    public void setAmount(java.math.BigDecimal amount) {
+        this.amount = amount;
     }
 }

@@ -45,8 +45,8 @@ public class PaymentSucceededConsumer {
             InventoryReservedEvent reservedEvent =
                     new InventoryReservedEvent(
                             event.getOrderId(),
-                            "PRODUCT-UNKNOWN",
-                            1
+                            event.getProductId(),
+                            event.getQuantity()
                     );
 
             inventoryEventProducer.publishInventoryReserved(
