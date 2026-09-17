@@ -1,5 +1,6 @@
 package com.eventcommerce.inventory.consumer;
 
+import com.eventcommerce.contracts.events.InventoryFailedEvent;
 import com.eventcommerce.contracts.events.InventoryReservedEvent;
 import com.eventcommerce.contracts.events.PaymentSucceededEvent;
 import com.eventcommerce.inventory.producer.InventoryEventProducer;
@@ -28,19 +29,46 @@ public class PaymentSucceededConsumer {
     public void consume(String message) {
 
         try {
+
             PaymentSucceededEvent event =
                     objectMapper.readValue(
                             message,
                             PaymentSucceededEvent.class
                     );
 
-            System.out.println("Received PaymentSucceededEvent");
-            System.out.println("Payment ID: " + event.getPaymentId());
-            System.out.println("Order ID: " + event.getOrderId());
-            System.out.println("Amount: " + event.getAmount());
+            System.out.println(
+                    "Received PaymentSucceededEvent. orderId="
+                            + event.getOrderId()
+            );
 
-            // For now, assume inventory reservation succeeds.
-            // Actual stock validation will be added later.
+            /*
+             * Temporary failure simulation.
+             *
+             * Any product starting with FAIL- will
+             * simulate an inventory reservation failure.
+             */
+            if (event.getProductId() != null
+                    && event.getProductId().startsWith("FAIL-")) {
+
+                InventoryFailedEvent failedEvent =
+                        new InventoryFailedEvent(
+                                event.getOrderId(),
+                                event.getProductId(),
+                                event.getQuantity(),
+                                "Insufficient inventory"
+                        );
+
+                inventoryEventProducer.publishInventoryFailed(
+                        failedEvent
+                );
+
+                System.out.println(
+                        "Inventory reservation FAILED. orderId="
+                                + event.getOrderId()
+                );
+
+                return;
+            }
 
             InventoryReservedEvent reservedEvent =
                     new InventoryReservedEvent(
@@ -54,14 +82,14 @@ public class PaymentSucceededConsumer {
             );
 
             System.out.println(
-                    "Inventory reserved successfully. orderId="
+                    "Inventory reservation SUCCESS. orderId="
                             + event.getOrderId()
             );
 
         } catch (Exception e) {
 
             System.err.println(
-                    "Failed to process payment-succeeded event"
+                    "Failed to process PaymentSucceededEvent"
             );
 
             e.printStackTrace();

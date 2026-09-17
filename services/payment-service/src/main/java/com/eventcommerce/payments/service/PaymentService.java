@@ -40,6 +40,32 @@ public class PaymentService {
         return payment;
     }
 
+    public Payment findByOrderId(Long orderId) {
+
+        for (Payment payment : payments) {
+
+            if (payment.getOrderId().equals(orderId)) {
+                return payment;
+            }
+        }
+
+        return null;
+    }
+
+    public Payment updatePayment(Payment payment) {
+
+        for (int i = 0; i < payments.size(); i++) {
+
+            if (payments.get(i).getId().equals(payment.getId())) {
+
+                payments.set(i, payment);
+
+                return payment;
+            }
+        }
+
+        return null;
+    }
     public List<Payment> getAllPayments() {
         return payments;
     }

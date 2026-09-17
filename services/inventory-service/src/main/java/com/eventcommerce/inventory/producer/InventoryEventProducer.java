@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-
+import com.eventcommerce.contracts.events.InventoryFailedEvent;
 @Component
 public class InventoryEventProducer {
 
@@ -41,6 +41,33 @@ public class InventoryEventProducer {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(
                     "Failed to serialize InventoryReservedEvent",
+                    e
+            );
+        }
+    }
+    public void publishInventoryFailed(
+            InventoryFailedEvent event) {
+
+        try {
+
+            String message =
+                    objectMapper.writeValueAsString(event);
+
+            kafkaTemplate.send(
+                    "inventory-failed",
+                    String.valueOf(event.getOrderId()),
+                    message
+            );
+
+            System.out.println(
+                    "Published InventoryFailedEvent for orderId="
+                            + event.getOrderId()
+            );
+
+        } catch (Exception e) {
+
+            throw new RuntimeException(
+                    "Failed to publish InventoryFailedEvent",
                     e
             );
         }
