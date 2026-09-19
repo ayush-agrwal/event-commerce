@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class PaymentSucceededEvent {
 
+    private String eventId;
     private Long paymentId;
     private Long orderId;
     private BigDecimal amount;
@@ -14,17 +15,27 @@ public class PaymentSucceededEvent {
     }
 
     public PaymentSucceededEvent(
+            String eventId,
             Long paymentId,
             Long orderId,
             BigDecimal amount,
             String productId,
             Integer quantity) {
 
+        this.eventId = eventId;
         this.paymentId = paymentId;
         this.orderId = orderId;
         this.amount = amount;
         this.productId = productId;
         this.quantity = quantity;
+    }
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 
     public Long getPaymentId() {

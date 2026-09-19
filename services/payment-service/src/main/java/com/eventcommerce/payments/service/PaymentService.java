@@ -29,11 +29,13 @@ public class PaymentService {
         payments.add(payment);
 
         PaymentSucceededEvent event = new PaymentSucceededEvent(
+                java.util.UUID.randomUUID().toString(),
                 payment.getId(),
                 payment.getOrderId(),
                 BigDecimal.valueOf(payment.getAmount()),
                 payment.getProductId(),
-                payment.getQuantity());
+                payment.getQuantity()
+        );
 
         paymentEventProducer.publishPaymentSucceeded(event);
 

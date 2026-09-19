@@ -2,20 +2,30 @@ package com.eventcommerce.contracts.events;
 
 public class InventoryFailedEvent {
 
+    private String eventId;
     private Long orderId;
     private String productId;
     private Integer quantity;
     private String reason;
 
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
     public InventoryFailedEvent() {
     }
 
     public InventoryFailedEvent(
-            Long orderId,
+            String eventId
+            ,Long orderId,
             String productId,
             Integer quantity,
             String reason) {
-
+        this.eventId = eventId;
         this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;

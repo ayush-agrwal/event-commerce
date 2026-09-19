@@ -4,18 +4,28 @@ import java.math.BigDecimal;
 
 public class PaymentRefundedEvent {
 
+    private String eventId;
     private Long paymentId;
     private Long orderId;
     private BigDecimal amount;
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
 
     public PaymentRefundedEvent() {
     }
 
     public PaymentRefundedEvent(
-            Long paymentId,
+            String eventId
+            ,Long paymentId,
             Long orderId,
             BigDecimal amount) {
-
+    this.eventId = eventId;
         this.paymentId = paymentId;
         this.orderId = orderId;
         this.amount = amount;

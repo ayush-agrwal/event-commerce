@@ -2,6 +2,15 @@ package com.eventcommerce.contracts.events;
 
 public class InventoryReservedEvent {
 
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    private String eventId;
     private Long orderId;
     private String productId;
     private Integer quantity;
@@ -10,9 +19,11 @@ public class InventoryReservedEvent {
     }
 
     public InventoryReservedEvent(
+            String eventId,
             Long orderId,
             String productId,
             Integer quantity) {
+        this.eventId = eventId;
         this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;

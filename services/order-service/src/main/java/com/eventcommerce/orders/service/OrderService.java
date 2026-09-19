@@ -42,6 +42,7 @@ public class OrderService {
 
         // 3. Create OrderCreated event
         OrderCreatedEvent event = new OrderCreatedEvent(
+                UUID.randomUUID().toString(),
                 savedOrder.getId(),
                 savedOrder.getCustomerId(),
                 savedOrder.getProductId(),

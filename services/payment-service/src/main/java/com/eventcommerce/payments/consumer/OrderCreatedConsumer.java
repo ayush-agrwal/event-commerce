@@ -1,25 +1,34 @@
 package com.eventcommerce.payments.consumer;
 
 import com.eventcommerce.contracts.events.OrderCreatedEvent;
+import com.eventcommerce.payments.idempotency.ProcessedEvent;
+import com.eventcommerce.payments.idempotency.ProcessedEventRepository;
 import com.eventcommerce.payments.model.Payment;
 import com.eventcommerce.payments.service.PaymentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Component
 public class OrderCreatedConsumer {
 
     private final ObjectMapper objectMapper;
     private final PaymentService paymentService;
-
+    private static final String CONSUMER_NAME="payment-service.order-created";
+    private  final ProcessedEventRepository processedEventRepository;
     public OrderCreatedConsumer(
             ObjectMapper objectMapper,
-            PaymentService paymentService) {
+            PaymentService paymentService,
+            ProcessedEventRepository processedEventRepository) {
         this.objectMapper = objectMapper;
         this.paymentService = paymentService;
+        this.processedEventRepository = processedEventRepository;
     }
 
+    @Transactional
     @KafkaListener(
             topics = "order-created",
             groupId = "payment-service"
@@ -42,9 +51,13 @@ public class OrderCreatedConsumer {
             payment.setAmount(event.getAmount().doubleValue());
             payment.setProductId(event.getProductId());
             payment.setQuantity(event.getQuantity());
+            if(processedEventRepository.existsById(event.getEventId())) {
+                System.out.println("Event already porcessed with this event"+event.getEventId());
+                return;
+            }
             Payment createdPayment =
                     paymentService.createPayment(payment);
-
+            processedEventRepository.save(new ProcessedEvent(event.getEventId(), CONSUMER_NAME, LocalDateTime.now()));
             System.out.println(
                     "Payment created successfully. paymentId="
                             + createdPayment.getId()

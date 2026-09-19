@@ -4,6 +4,15 @@ import java.math.BigDecimal;
 
 public class OrderCreatedEvent {
 
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    private String eventId;
     private Long orderId;
     private String customerId;
     private String productId;
@@ -14,12 +23,13 @@ public class OrderCreatedEvent {
     }
 
     public OrderCreatedEvent(
+            String eventId,
             Long orderId,
             String customerId,
             String productId,
             Integer quantity,
             BigDecimal amount) {
-
+        this.eventId = eventId;
         this.orderId = orderId;
         this.customerId = customerId;
         this.productId = productId;
